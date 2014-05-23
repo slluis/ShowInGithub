@@ -5,10 +5,16 @@
 		<Command id = "ShowInGithub.Commands.ShowInGithub"
 		         defaultHandler = "ShowInGithub.ShowInGithubCommand"
 		         _label = "Show in Github" /> 
+		<Command id = "ShowInGithub.Commands.CopyGithubLink"
+		         defaultHandler = "ShowInGithub.CopyGithubLinkCommand"
+		         _label = "Copy Github Link" /> 
 	</Extension>
 
 	<Extension path = "/MonoDevelop/SourceEditor2/ContextMenu/Editor">
+		<SeparatorItem />
 		<CommandItem id = "ShowInGithub.Commands.ShowInGithub" />
+		<CommandItem id = "ShowInGithub.Commands.CopyGithubLink" />
+		<SeparatorItem />
 	</Extension>
 
 </ExtensionModel>

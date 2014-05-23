@@ -8,7 +8,8 @@ namespace ShowInGithub
 {
 	public enum Commands
 	{
-		ShowInGithub
+		ShowInGithub,
+		CopyGithubLink
 	}
 
 	public class ShowInGithubCommand: CommandHandler
@@ -19,7 +20,7 @@ namespace ShowInGithub
 			info.Visible = doc != null && doc.Editor != null && GetGitDir (doc.FileName) != null;
 		}
 
-		string GetGitDir (string subdir)
+		internal static string GetGitDir (string subdir)
 		{
 			var r = Path.GetPathRoot (subdir);
 			while (!string.IsNullOrEmpty (subdir) && subdir != r) {
@@ -32,6 +33,13 @@ namespace ShowInGithub
 		}
 
 		protected override void Run ()
+		{
+			var url = GetUrl ();
+			if (url != null)
+				DesktopService.ShowUrl (url);
+		}
+
+		internal static string GetUrl ()
 		{
 			var doc = IdeApp.Workbench.ActiveDocument;
 			var dir = GetGitDir (doc.FileName);
@@ -53,21 +61,39 @@ namespace ShowInGithub
 				remote = "origin";
 			var rref = file.Sections.FirstOrDefault (s => s.Type == "remote" && s.Name == remote);
 			if (rref == null)
-				return;
+				return null;
 
 			var url = rref.GetValue ("url");
 			if (url.EndsWith (".git"))
 				url = url.Substring (0, url.Length - 4);
 			var i = url.IndexOf ("github.com");
 			if (i == -1)
-				return;
+				return null;
 
 			string subdir = doc.FileName.ToRelative (new FilePath (dir).ParentDirectory);
 			subdir = subdir.Replace ('\\','/');
-			url = "https://github.com/" + url.Substring (i + 11) + "/blob/" + branch + "/" + subdir + "#L" + doc.Editor.Caret.Line;
-			DesktopService.ShowUrl (url);
+			var line1 = doc.Editor.OffsetToLineNumber (doc.Editor.SelectionRange.Offset);
+			var line2 = doc.Editor.OffsetToLineNumber (doc.Editor.SelectionRange.EndOffset);
+			var tline = line1.ToString ();
+			if (line1 != line2)
+				tline += "-" + line2;
+			return "https://github.com/" + url.Substring (i + 11) + "/blob/" + branch + "/" + subdir + "#L" + tline;
+		}
+	}
 
+	public class CopyGithubLinkCommand: CommandHandler
+	{
+		protected override void Update (CommandInfo info)
+		{
+			var doc = IdeApp.Workbench.ActiveDocument;
+			info.Visible = doc != null && doc.Editor != null && ShowInGithubCommand.GetGitDir (doc.FileName) != null;
+		}
+
+		protected override void Run ()
+		{
+			var url = ShowInGithubCommand.GetUrl ();
+			if (url != null)
+				Xwt.Clipboard.SetText (url);
 		}
 	}
 }
-

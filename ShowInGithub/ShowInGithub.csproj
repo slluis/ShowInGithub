@@ -54,6 +54,9 @@
     <Reference Include="MonoDevelop.VersionControl, Version=2.6.0.0, Culture=neutral">
       <Package>monodevelop-core-addins</Package>
     </Reference>
+    <Reference Include="Xwt, Version=0.1.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
+      <Package>monodevelop</Package>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

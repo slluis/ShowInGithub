@@ -5,7 +5,7 @@ using Mono.Addins.Description;
 [assembly:Addin (
 	"ShowInGithub", 
 	Namespace = "ShowInGithub",
-	Version = "1.0"
+	Version = "1.0.1"
 )]
 
 [assembly:AddinName ("Show in Github")]
