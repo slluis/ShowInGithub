@@ -94,6 +94,8 @@ namespace ShowInGithub
 			var url = ShowInGithubCommand.GetUrl ();
 			if (url != null)
 				Xwt.Clipboard.SetText (url);
+			else
+				Xwt.Clipboard.SetText ("");
 		}
 	}
 }
