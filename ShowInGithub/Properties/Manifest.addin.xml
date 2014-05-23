@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionModel>
+
+	<Extension path = "/MonoDevelop/Ide/Commands/VersionControl">
+		<Command id = "ShowInGithub.Commands.ShowInGithub"
+		         defaultHandler = "ShowInGithub.ShowInGithubCommand"
+		         _label = "Show in Github" /> 
+	</Extension>
+
+	<Extension path = "/MonoDevelop/SourceEditor2/ContextMenu/Editor">
+		<CommandItem id = "ShowInGithub.Commands.ShowInGithub" />
+	</Extension>
+
+</ExtensionModel>

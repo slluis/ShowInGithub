@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{7DBEB09D-BB9F-4D92-A141-A009135475EF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{54D3A304-373C-47E1-B83A-97AA0A756627}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ShowInGithub</RootNamespace>
+    <AssemblyName>ShowInGithub</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Addins">
+      <Package>/Users/lluis/prog/work/master/monodevelop/main/build/bin/Mono.Addins.dll</Package>
+    </Reference>
+    <Reference Include="MonoDevelop.Core">
+      <Package>/Users/lluis/prog/work/master/monodevelop/main/build/bin/MonoDevelop.Core.dll</Package>
+    </Reference>
+    <Reference Include="MonoDevelop.Ide">
+      <Package>/Users/lluis/prog/work/master/monodevelop/main/build/bin/MonoDevelop.Ide.dll</Package>
+    </Reference>
+    <Reference Include="Mono.TextEditor">
+      <Package>/Users/lluis/prog/work/master/monodevelop/main/build/bin/Mono.TextEditor.dll</Package>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory">
+      <Package>/Users/lluis/prog/work/master/monodevelop/main/build/bin/ICSharpCode.NRefactory.dll</Package>
+    </Reference>
+    <Reference Include="gtk-sharp" />
+    <Reference Include="glib-sharp" />
+    <Reference Include="gdk-sharp" />
+    <Reference Include="pango-sharp" />
+    <Reference Include="Mono.Cairo" />
+    <Reference Include="MonoDevelop.VersionControl, Version=2.6.0.0, Culture=neutral">
+      <Package>monodevelop-core-addins</Package>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AddinInfo.cs" />
+    <Compile Include="ShowInGithubCommand.cs" />
+    <Compile Include="GitConfigFile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Manifest.addin.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
