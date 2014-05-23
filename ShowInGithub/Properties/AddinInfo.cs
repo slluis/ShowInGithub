@@ -8,9 +8,9 @@ using Mono.Addins.Description;
 	Version = "1.0"
 )]
 
-[assembly:AddinName ("ShowInGithub")]
-[assembly:AddinCategory ("ShowInGithub")]
-[assembly:AddinDescription ("ShowInGithub")]
+[assembly:AddinName ("Show in Github")]
+[assembly:AddinCategory ("Version Control")]
+[assembly:AddinDescription ("Adds a command to the text editor context menu which will jump to the current file and line in Github")]
 [assembly:AddinAuthor ("Lluis Sanchez Gual")]
 
 [assembly:AddinDependency ("::MonoDevelop.Core", MonoDevelop.BuildInfo.Version)]
