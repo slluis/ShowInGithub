@@ -1,6 +1,6 @@
 <AddinProject appVersion="5.0">
 	<Project>
-		<AddinFile>ShowInGithub/bin/Debug</AddinFile>
+		<AddinFile>ShowInGithub/bin/Debug/ShowInGithub.dll</AddinFile>
 		<BuildFile>ShowInGithub.sln</BuildFile>
 		<BuildConfiguration>Debug</BuildConfiguration>
 	</Project>
