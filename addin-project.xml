@@ -1,0 +1,7 @@
+<AddinProject appVersion="5.0">
+	<Project>
+		<AddinFile>ShowInGithub/bin/Debug</AddinFile>
+		<BuildFile>ShowInGithub.sln</BuildFile>
+		<BuildConfiguration>Debug</BuildConfiguration>
+	</Project>
+</AddinProject>
