@@ -92,10 +92,13 @@ namespace ShowInGithub
 		protected override void Run ()
 		{
 			var url = ShowInGithubCommand.GetUrl ();
-			if (url != null)
+			if (url != null) {
 				Xwt.Clipboard.SetText (url);
-			else
+				IdeApp.Workbench.StatusBar.ShowMessage ("GitHub url successfully copied to clipboard");
+			} else {
 				Xwt.Clipboard.SetText ("");
+				IdeApp.Workbench.StatusBar.ShowError ("GitHub url could not be copied to clipboard");
+			}
 		}
 	}
 }
