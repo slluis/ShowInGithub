@@ -3,6 +3,7 @@ using System.Linq;
 using MonoDevelop.Components.Commands;
 using MonoDevelop.Ide;
 using MonoDevelop.Core;
+using System;
 
 namespace ShowInGithub
 {
@@ -66,18 +67,41 @@ namespace ShowInGithub
 			var url = rref.GetValue ("url");
 			if (url.EndsWith (".git"))
 				url = url.Substring (0, url.Length - 4);
-			var i = url.IndexOf ("github.com");
-			if (i == -1)
-				return null;
+
+			string host;
+
+			int k = url.IndexOfAny (new []{':', '@'});
+			if (k != -1 && url[k] == '@') {
+				k++;
+				int i = url.IndexOf (':', k);
+				if (i != -1)
+					host = url.Substring (k, i - k);
+				else
+					return null;
+			} else {
+				Uri uri;
+				if (Uri.TryCreate (url, UriKind.Absolute, out uri))
+					host = uri.Host;
+				else
+					return null;
+			}
+
+			int j = url.IndexOf (host);
+			var repo = url.Substring (j + host.Length + 1);
 
 			string subdir = doc.FileName.ToRelative (new FilePath (dir).ParentDirectory);
 			subdir = subdir.Replace ('\\','/');
-			var line1 = doc.Editor.OffsetToLineNumber (doc.Editor.SelectionRange.Offset);
-			var line2 = doc.Editor.OffsetToLineNumber (doc.Editor.SelectionRange.EndOffset);
-			var tline = line1.ToString ();
-			if (line1 != line2)
-				tline += "-" + line2;
-			return "https://github.com/" + url.Substring (i + 11) + "/blob/" + branch + "/" + subdir + "#L" + tline;
+			string tline;
+			if (doc.Editor.SelectionRange.Offset != doc.Editor.SelectionRange.EndOffset) {
+				var line1 = doc.Editor.OffsetToLineNumber (doc.Editor.SelectionRange.Offset);
+				var line2 = doc.Editor.OffsetToLineNumber (doc.Editor.SelectionRange.EndOffset);
+				tline = line1.ToString ();
+				if (line1 != line2)
+					tline += "-" + line2;
+			} else {
+				tline = doc.Editor.Caret.Line.ToString ();
+			}
+			return "https://" + host + "/" + repo + "/blob/" + branch + "/" + subdir + "#L" + tline;
 		}
 	}
 
