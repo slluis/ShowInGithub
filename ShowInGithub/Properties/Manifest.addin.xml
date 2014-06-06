@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ExtensionModel>
 
+	<Header>
+		<ReleaseNotes>
+{{1.0.2, 2014-06-06}}
+Added support for enterprise GitHub setups.
+Fixed incorrect line number in some cases.
+		</ReleaseNotes>
+	</Header>
+
 	<Extension path = "/MonoDevelop/Ide/Commands/VersionControl">
 		<Command id = "ShowInGithub.Commands.ShowInGithub"
 		         defaultHandler = "ShowInGithub.ShowInGithubCommand"
