@@ -43,11 +43,34 @@ namespace ShowInGithub
 		internal static string GetUrl ()
 		{
 			var doc = IdeApp.Workbench.ActiveDocument;
-			var dir = GetGitDir (doc.FileName);
-			var file = new GitConfigFile ();
-			file.LoadFile (Path.Combine (dir, "config"));
+			var gitDir = GetGitDir (doc.FileName);
 
-			string head = File.ReadAllText (Path.Combine (dir, "HEAD")).Trim ();
+			if (gitDir == null)
+				return null;
+
+			var rootDir = Path.GetDirectoryName (gitDir);
+
+			var gitModulesFile = Path.Combine (rootDir, ".gitmodules");
+			GitConfigSection submoduleSection = null;
+			if (File.Exists (gitModulesFile)) {
+				var modulesConfig = new GitConfigFile ();
+				modulesConfig.LoadFile (gitModulesFile);
+				foreach (var section in modulesConfig.Sections) {
+					//Checking if file is inside submodule folder
+					if (section.Type == "submodule" &&
+					    section.GetValue ("path") != null &&
+					    Path.GetFullPath (doc.FileName).StartsWith (Path.Combine (rootDir, Path.Combine (section.GetValue ("path").Split ('/'))), StringComparison.Ordinal)) {
+						gitDir = Path.Combine (gitDir, "modules", Path.Combine (section.GetValue ("path").Split ('/')));
+						submoduleSection = section;
+						break;
+					}
+				}
+			}
+
+			var file = new GitConfigFile ();
+			file.LoadFile (Path.Combine (gitDir, "config"));
+
+			string head = File.ReadAllText (Path.Combine (gitDir, "HEAD")).Trim ();
 			string branch;
 			string remote = null;
 			if (head.StartsWith ("ref: refs/heads/")) {
@@ -70,8 +93,8 @@ namespace ShowInGithub
 
 			string host;
 
-			int k = url.IndexOfAny (new []{':', '@'});
-			if (k != -1 && url[k] == '@') {
+			int k = url.IndexOfAny (new []{ ':', '@' });
+			if (k != -1 && url [k] == '@') {
 				k++;
 				int i = url.IndexOf (':', k);
 				if (i != -1)
@@ -89,8 +112,9 @@ namespace ShowInGithub
 			int j = url.IndexOf (host);
 			var repo = url.Substring (j + host.Length + 1);
 
-			string subdir = doc.FileName.ToRelative (new FilePath (dir).ParentDirectory);
-			subdir = subdir.Replace ('\\','/');
+			var fileRootDir = submoduleSection == null ? rootDir : Path.Combine (rootDir, Path.Combine (submoduleSection.GetValue ("path").Split ('/')));
+			string subdir = doc.FileName.ToRelative (fileRootDir);
+			subdir = subdir.Replace ('\\', '/');
 			string tline;
 			if (doc.Editor.SelectionRange.Offset != doc.Editor.SelectionRange.EndOffset) {
 				var line1 = doc.Editor.OffsetToLineNumber (doc.Editor.SelectionRange.Offset);
