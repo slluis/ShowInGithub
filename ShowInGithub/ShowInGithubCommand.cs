@@ -119,13 +119,13 @@ namespace ShowInGithub
 			if (doc.Editor.SelectionRange.Offset != doc.Editor.SelectionRange.EndOffset) {
 				var line1 = doc.Editor.OffsetToLineNumber (doc.Editor.SelectionRange.Offset);
 				var line2 = doc.Editor.OffsetToLineNumber (doc.Editor.SelectionRange.EndOffset);
-				tline = line1.ToString ();
+				tline = "L" + line1.ToString ();
 				if (line1 != line2)
-					tline += "-" + line2;
+					tline += "-L" + line2;
 			} else {
-				tline = doc.Editor.Caret.Line.ToString ();
+				tline = "L" + doc.Editor.CaretLine;
 			}
-			return "https://" + host + "/" + repo + "/blob/" + branch + "/" + subdir + "#L" + tline;
+			return "https://" + host + "/" + repo + "/blob/" + branch + "/" + subdir + "#" + tline;
 		}
 	}
 
