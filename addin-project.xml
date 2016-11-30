@@ -1,4 +1,4 @@
-<AddinProject appVersion="6.0">
+<AddinProject appVersion="7.0">
 	<Project>
 		<AddinFile>ShowInGithub/bin/Debug/ShowInGithub.dll</AddinFile>
 		<BuildFile>ShowInGithub.sln</BuildFile>
