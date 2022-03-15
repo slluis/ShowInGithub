@@ -20,7 +20,7 @@ Fixed incorrect line number in some cases.
 		         _label = "Copy Github Link" /> 
 	</Extension>
 
-	<Extension path = "/MonoDevelop/SourceEditor2/ContextMenu/Editor">
+	<Extension path = "/MonoDevelop/TextEditor/ContextMenu/Editor">
 		<SeparatorItem />
 		<CommandItem id = "ShowInGithub.Commands.ShowInGithub" />
 		<CommandItem id = "ShowInGithub.Commands.CopyGithubLink" />

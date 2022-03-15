@@ -4,6 +4,8 @@ using MonoDevelop.Components.Commands;
 using MonoDevelop.Ide;
 using MonoDevelop.Core;
 using System;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
 
 namespace ShowInGithub
 {
@@ -18,7 +20,7 @@ namespace ShowInGithub
 		protected override void Update (CommandInfo info)
 		{
 			var doc = IdeApp.Workbench.ActiveDocument;
-			info.Visible = doc != null && doc.Editor != null && GetGitDir (doc.FileName) != null;
+			info.Visible = doc != null && doc.GetContent<ITextView>() != null && GetGitDir (doc.FileName) != null;
 		}
 
 		internal static string GetGitDir (string subdir)
@@ -37,7 +39,7 @@ namespace ShowInGithub
 		{
 			var url = GetUrl ();
 			if (url != null)
-				DesktopService.ShowUrl (url);
+				IdeServices.DesktopService.ShowUrl (url);
 		}
 
 		internal static string GetUrl ()
@@ -116,15 +118,14 @@ namespace ShowInGithub
 			string subdir = doc.FileName.ToRelative (fileRootDir);
 			subdir = subdir.Replace ('\\', '/');
 			string tline;
-			if (doc.Editor.SelectionRange.Offset != doc.Editor.SelectionRange.EndOffset) {
-				var line1 = doc.Editor.OffsetToLineNumber (doc.Editor.SelectionRange.Offset);
-				var line2 = doc.Editor.OffsetToLineNumber (doc.Editor.SelectionRange.EndOffset);
-				tline = "L" + line1.ToString ();
-				if (line1 != line2)
-					tline += "-L" + line2;
-			} else {
-				tline = "L" + doc.Editor.CaretLine;
-			}
+
+			var textView = doc.GetContent<ITextView>();
+			var buffer = textView.TextBuffer;
+			var line1 = buffer.CurrentSnapshot.GetLineNumberFromPosition(textView.Selection.Start.Position) + 1;
+			var line2 = buffer.CurrentSnapshot.GetLineNumberFromPosition(textView.Selection.End.Position) + 1;
+			tline = "L" + line1.ToString();
+			if (line1 != line2)
+				tline += "-L" + line2;
 			return "https://" + host + "/" + repo + "/blob/" + branch + "/" + subdir + "#" + tline;
 		}
 	}
@@ -134,7 +135,7 @@ namespace ShowInGithub
 		protected override void Update (CommandInfo info)
 		{
 			var doc = IdeApp.Workbench.ActiveDocument;
-			info.Visible = doc != null && doc.Editor != null && ShowInGithubCommand.GetGitDir (doc.FileName) != null;
+			info.Visible = doc != null && doc.GetContent<ITextView>() != null && ShowInGithubCommand.GetGitDir (doc.FileName) != null;
 		}
 
 		protected override void Run ()
