@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ShowInGithub</RootNamespace>
     <AssemblyName>ShowInGithub</AssemblyName>
-	<TargetFramework>net6.0</TargetFramework>
+	<TargetFramework>net7.0</TargetFramework>
     <IsAddin>True</IsAddin>
   </PropertyGroup>
   <ItemGroup>
@@ -12,6 +12,6 @@
     <AddinReference Include="MonoDevelop.TextEditor" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudioMac.Sdk" Version="17.0.0-preview.7955" />
+    <PackageReference Include="Microsoft.VisualStudioMac.Sdk" Version="17.4.0" />
   </ItemGroup>
 </Project>
