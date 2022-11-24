@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ShowInGithub</RootNamespace>
     <AssemblyName>ShowInGithub</AssemblyName>
-	<TargetFramework>net6.0</TargetFramework>
+	<TargetFramework>net7.0</TargetFramework>
     <IsAddin>True</IsAddin>
   </PropertyGroup>
   <ItemGroup>
